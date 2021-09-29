@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class FrmCalculoSatelitJInternalFrame1 extends javax.swing.JInternalFrame {
@@ -26,12 +27,11 @@ public class FrmCalculoSatelitJInternalFrame1 extends javax.swing.JInternalFrame
         DefaultTableModel dt = (DefaultTableModel) tblSatelite.getModel();
         dt.setRowCount(0);
         for (CalculoSatelite x : obj.getList()) {
-            Object v[] = {x.getNombre(),x.getApellido(), x.getPeso(), x.Modelo(), x.resultado()};
+            Object v[] = {x.getNombre(), x.getApellido(), x.getPeso(), x.Modelo(), x.resultado()};
             dt.addRow(v);
         }
     }
 
-  
     private void limpiar() {
         txtNombre.setText("");
         txtApellido.setText("");
@@ -39,9 +39,7 @@ public class FrmCalculoSatelitJInternalFrame1 extends javax.swing.JInternalFrame
         cboSatelite.setSelectedIndex(0);
 
     }
-    
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -94,6 +92,12 @@ public class FrmCalculoSatelitJInternalFrame1 extends javax.swing.JInternalFrame
         });
         getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 62, 130, -1));
         getContentPane().add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 88, 130, -1));
+
+        txtPesoTerrestre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPesoTerrestreKeyTyped(evt);
+            }
+        });
         getContentPane().add(txtPesoTerrestre, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 119, 130, -1));
 
         lblSatelite.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -154,26 +158,43 @@ public class FrmCalculoSatelitJInternalFrame1 extends javax.swing.JInternalFrame
         //VECTORES IMAGEN X PLANETA
         String cad[] = {"", "luna"};
         verImagen(cad[ind]);
-        
+
         //VECTOR
-        double s[]={0,.166};
-        txtFgs.setText(""+s[cboSatelite.getSelectedIndex()]);
+        double s[] = {0, .166};
+        txtFgs.setText("" + s[cboSatelite.getSelectedIndex()]);
 
 
     }//GEN-LAST:event_cboSateliteActionPerformed
 
     private void btnCalcularpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularpActionPerformed
-        String nom = txtNombre.getText();
-         String ape = txtApellido.getText();
-        int pes = Integer.parseInt(txtPesoTerrestre.getText());
-        int cad = cboSatelite.getSelectedIndex();
-        CalculoSatelite ca = new CalculoSatelite(nom,ape, pes, cad);
-        obj.adicionar(ca);
-        muestra();
-        limpiar();
 
+        if (txtNombre.getText().isEmpty() || txtApellido.getText().isEmpty()
+                || txtPesoTerrestre.getText().isEmpty() || cboSatelite.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(this, "Complete Campos");
+
+        } else {
+
+            String nom = txtNombre.getText();
+            String ape = txtApellido.getText();
+            int pes = Integer.parseInt(txtPesoTerrestre.getText());
+            int cad = cboSatelite.getSelectedIndex();
+            CalculoSatelite ca = new CalculoSatelite(nom, ape, pes, cad);
+            obj.adicionar(ca);
+            muestra();
+            limpiar();
+        }
 
     }//GEN-LAST:event_btnCalcularpActionPerformed
+
+    private void txtPesoTerrestreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesoTerrestreKeyTyped
+        char validar = evt.getKeyChar();
+        if (Character.isLetter(validar)) {
+            getToolkit().beep();
+            evt.consume();
+
+            JOptionPane.showMessageDialog(rootPane, "Ingresa tu peso");
+        }
+    }//GEN-LAST:event_txtPesoTerrestreKeyTyped
     void verImagen(String pic) {
         //detectar la ruta del proyecto
         String ruta = new File("src").getAbsolutePath();

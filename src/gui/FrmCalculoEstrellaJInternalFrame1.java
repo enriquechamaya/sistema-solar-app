@@ -12,9 +12,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import javax.swing.table.DefaultTableModel;
-
 
 public class FrmCalculoEstrellaJInternalFrame1 extends javax.swing.JInternalFrame {
 
@@ -94,6 +94,12 @@ public class FrmCalculoEstrellaJInternalFrame1 extends javax.swing.JInternalFram
         });
         getContentPane().add(txtNombree, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 62, 130, -1));
         getContentPane().add(txtApellidoe, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 88, 130, -1));
+
+        txtPesoe.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPesoeKeyTyped(evt);
+            }
+        });
         getContentPane().add(txtPesoe, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 119, 130, -1));
 
         lblEstrella.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -162,16 +168,34 @@ public class FrmCalculoEstrellaJInternalFrame1 extends javax.swing.JInternalFram
     }//GEN-LAST:event_cboEstrellaActionPerformed
 
     private void btnCalculareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalculareActionPerformed
-        String nom = txtNombree.getText();
-        String ape = txtApellidoe.getText();
-        int pes = Integer.parseInt(txtPesoe.getText());
-        int cad = cboEstrella.getSelectedIndex();
-        CalculoEstrella ca = new CalculoEstrella(nom, ape, pes, cad);
-        obj.adicionar(ca);
-        muestra();
-        limpiar();
-        
+
+        if (txtNombree.getText().isEmpty() || txtApellidoe.getText().isEmpty()
+                || txtPesoe.getText().isEmpty() || cboEstrella.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(this, "Complete Campos");
+
+        } else {
+
+            String nom = txtNombree.getText();
+            String ape = txtApellidoe.getText();
+            int pes = Integer.parseInt(txtPesoe.getText());
+            int cad = cboEstrella.getSelectedIndex();
+            CalculoEstrella ca = new CalculoEstrella(nom, ape, pes, cad);
+            obj.adicionar(ca);
+            muestra();
+            limpiar();
+        }
+
     }//GEN-LAST:event_btnCalculareActionPerformed
+
+    private void txtPesoeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesoeKeyTyped
+        char validar = evt.getKeyChar();
+        if (Character.isLetter(validar)) {
+            getToolkit().beep();
+            evt.consume();
+
+            JOptionPane.showMessageDialog(rootPane, "Ingresa tu peso");
+        }
+    }//GEN-LAST:event_txtPesoeKeyTyped
 
     void verImagen(String pic) {
         //detectar la ruta del proyecto

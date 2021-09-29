@@ -10,6 +10,7 @@ import controlador.Arreglo_CalculoPlaneta;
 import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,38 +18,31 @@ import javax.swing.table.DefaultTableModel;
  * @author Saul
  */
 public class FrmCalculoPlanetasJInternalFrame extends javax.swing.JInternalFrame {
- 
-    
-    
-    Arreglo_CalculoPlaneta  obj = new Arreglo_CalculoPlaneta();
+
+    Arreglo_CalculoPlaneta obj = new Arreglo_CalculoPlaneta();
+
     public FrmCalculoPlanetasJInternalFrame() {
         initComponents();
         muestra();
     }
 
-      void muestra() {
+    void muestra() {
         DefaultTableModel dt = (DefaultTableModel) tblPlaneta.getModel();
         dt.setRowCount(0);
         for (CalculoPlaneta x : obj.getList()) {
-            Object v[] = {x.getNombre(),x.getApellido(), x.getPeso(), x.Modelo(), x.resultado()};
+            Object v[] = {x.getNombre(), x.getApellido(), x.getPeso(), x.Modelo(), x.resultado()};
             dt.addRow(v);
         }
     }
-      
-      
-      private void limpiar() {
+
+    private void limpiar() {
         txtNombree.setText("");
         txtApellidoe.setText("");
         txtPesoe.setText("");
         cboPlanetas.setSelectedIndex(0);
 
     }
-      
-      
-      
-      
-      
-      
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -101,6 +95,12 @@ public class FrmCalculoPlanetasJInternalFrame extends javax.swing.JInternalFrame
         });
         getContentPane().add(txtNombree, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 62, 130, -1));
         getContentPane().add(txtApellidoe, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 88, 130, -1));
+
+        txtPesoe.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPesoeKeyTyped(evt);
+            }
+        });
         getContentPane().add(txtPesoe, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 119, 130, -1));
 
         lblPlaneta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -159,27 +159,44 @@ public class FrmCalculoPlanetasJInternalFrame extends javax.swing.JInternalFrame
         int ind = cboPlanetas.getSelectedIndex();
 
         //VECTORES IMAGEN X PLANETA
-        String cad[] = {"","mercurio","venus","jupiter","marte","saturno","urano","neptuno"};
+        String cad[] = {"", "mercurio", "venus", "jupiter", "marte", "saturno", "urano", "neptuno"};
         verImagen(cad[ind]);
-        
+
         //VECTOR
-        double s[]={0, .378,.906,2.533,.379,1.066,.905,1.133};
-        txtFgP.setText(""+s[cboPlanetas.getSelectedIndex()]);                                      
-     
+        double s[] = {0, .378, .906, 2.533, .379, 1.066, .905, 1.133};
+        txtFgP.setText("" + s[cboPlanetas.getSelectedIndex()]);
+
     }//GEN-LAST:event_cboPlanetasActionPerformed
 
     private void btnCalcularpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularpActionPerformed
-      String nom = txtNombree.getText();
-         String ape = txtApellidoe.getText();
-        int pes = Integer.parseInt(txtPesoe.getText());
-        int cad = cboPlanetas.getSelectedIndex();
-        CalculoPlaneta ca = new CalculoPlaneta(nom,ape, pes, cad);
-        obj.adicionar(ca);
-        muestra();
-        limpiar();
+
+        if (txtNombree.getText().isEmpty() || txtApellidoe.getText().isEmpty()
+                || txtPesoe.getText().isEmpty() || cboPlanetas.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(this, "Complete Campos");
+
+        } else {
+
+            String nom = txtNombree.getText();
+            String ape = txtApellidoe.getText();
+            int pes = Integer.parseInt(txtPesoe.getText());
+            int cad = cboPlanetas.getSelectedIndex();
+            CalculoPlaneta ca = new CalculoPlaneta(nom, ape, pes, cad);
+            obj.adicionar(ca);
+            muestra();
+            limpiar();
+        }
     }//GEN-LAST:event_btnCalcularpActionPerformed
 
-    
+    private void txtPesoeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesoeKeyTyped
+        char validar = evt.getKeyChar();
+        if (Character.isLetter(validar)) {
+            getToolkit().beep();
+            evt.consume();
+
+            JOptionPane.showMessageDialog(rootPane, "Ingresa tu peso");
+        }
+    }//GEN-LAST:event_txtPesoeKeyTyped
+
     void verImagen(String pic) {
         //detectar la ruta del proyecto
         String ruta = new File("src").getAbsolutePath();
