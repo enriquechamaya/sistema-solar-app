@@ -171,7 +171,8 @@ public class FrmCalculoEstrellaJInternalFrame1 extends javax.swing.JInternalFram
 
         if (txtNombree.getText().isEmpty() || txtApellidoe.getText().isEmpty()
                 || txtPesoe.getText().isEmpty() || cboEstrella.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Complete Campos");
+             JOptionPane.showMessageDialog(null, "Por favor, complete los campos", "AVISO", JOptionPane.WARNING_MESSAGE);
+            txtNombree.requestFocus();
 
         } else {
 

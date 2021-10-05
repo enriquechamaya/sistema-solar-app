@@ -170,7 +170,8 @@ public class FrmCalculoSatelitJInternalFrame1 extends javax.swing.JInternalFrame
 
         if (txtNombre.getText().isEmpty() || txtApellido.getText().isEmpty()
                 || txtPesoTerrestre.getText().isEmpty() || cboSatelite.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Complete Campos");
+            JOptionPane.showMessageDialog(null, "Por favor, complete los campos", "AVISO", JOptionPane.WARNING_MESSAGE);
+            txtNombre.requestFocus();
 
         } else {
 

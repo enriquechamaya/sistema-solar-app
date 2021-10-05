@@ -172,7 +172,8 @@ public class FrmCalculoPlanetasJInternalFrame extends javax.swing.JInternalFrame
 
         if (txtNombree.getText().isEmpty() || txtApellidoe.getText().isEmpty()
                 || txtPesoe.getText().isEmpty() || cboPlanetas.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Complete Campos");
+           JOptionPane.showMessageDialog(null, "Por favor, complete los campos", "AVISO", JOptionPane.WARNING_MESSAGE);
+            txtNombree.requestFocus();
 
         } else {
 
