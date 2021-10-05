@@ -24,6 +24,7 @@ public class FrmQuizz extends javax.swing.JInternalFrame {
 
     public static int respuestasCorrectas = 0;
     public static int respuestasIncorrectas = 0;
+    public static int puntaje = 0;
     public static String nombresApellidos = "";
 
     /**
@@ -41,6 +42,7 @@ public class FrmQuizz extends javax.swing.JInternalFrame {
     void reiniciarContabilizadores() {
         respuestasCorrectas = 0;
         respuestasIncorrectas = 0;
+        puntaje = 0;
     }
 
     void agruparAlternativas() {
@@ -50,16 +52,16 @@ public class FrmQuizz extends javax.swing.JInternalFrame {
     }
 
     void llenarPreguntas() {
-        Quizz pregunta1 = new Quizz("pregunta1", "1", new String[]{"1", "2", "3"}, 4);
-        Quizz pregunta2 = new Quizz("pregunta2", "5", new String[]{"4", "5", "6"}, 4);
-        Quizz pregunta3 = new Quizz("pregunta3", "b", new String[]{"a", "b", "c"}, 4);
-        Quizz pregunta4 = new Quizz("pregunta4", "f", new String[]{"d", "e", "f"}, 4);
-        Quizz pregunta5 = new Quizz("pregunta5", "h", new String[]{"g", "h", "i"}, 4);
-        Quizz pregunta6 = new Quizz("pregunta6", "j", new String[]{"j", "k", "l"}, 4);
-        Quizz pregunta7 = new Quizz("pregunta7", "m", new String[]{"m", "n", "ñ"}, 4);
-        Quizz pregunta8 = new Quizz("pregunta8", "o", new String[]{"o", "p", "q"}, 4);
-        Quizz pregunta9 = new Quizz("pregunta9", "s", new String[]{"r", "s", "t"}, 4);
-        Quizz pregunta10 = new Quizz("pregunta10", "w", new String[]{"u", "v", "w"}, 4);
+        Quizz pregunta1 = new Quizz("¿CUÁL ES LA GRAVEDAD EN URANO?", "0.99", new String[]{"2.55", "0.99", "0.38"}, 4);
+        Quizz pregunta2 = new Quizz("¿CUÁL ES LA GRAVEDAD EN MARTE?", "0.38", new String[]{"0.93", "0.38", "0.17"}, 4);
+        Quizz pregunta3 = new Quizz("¿EL PESO Y LA MASA SON LO MISMO?", "falso", new String[]{"verdadero", "falso", ""}, 4);
+        Quizz pregunta4 = new Quizz("¿EL PLANETA SATURNO ES GASEOSO?", "verdadero", new String[]{"falso", "verdadero", ""}, 4);
+        Quizz pregunta5 = new Quizz("¿EL PLANETA TIERRA ES GASEOSO?", "falso", new String[]{"verdadero", "falso", ""}, 4);
+        Quizz pregunta6 = new Quizz("¿CUÁL ES EL PLANETA MÁS PEQUEÑO?", "Mercurio", new String[]{"Marte", "Mercurio", "Plutón"}, 4);
+        Quizz pregunta7 = new Quizz("¿CUÁL ES EL PLANETA MAS CERCANO AL SOL?", "Mercurio", new String[]{"Saturno", "Mercurio", "Júpiter"}, 4);
+        Quizz pregunta8 = new Quizz("LA LUNA ES UN(A)...", "Satélite", new String[]{"Planeta", "Estrella", "Satélite"}, 4);
+        Quizz pregunta9 = new Quizz("¿CUÁL ES LA FÓRMULA PARA HALLAR EL PESO DE UNA PERSONA?", "p=m*g", new String[]{"p=m*g", "p=m/g", "p=p*m"}, 4);
+        Quizz pregunta10 = new Quizz("¿QUÉ PLANETA POSEE ANILLOS?", "Urano", new String[]{"Marte", "Urano", "Plutón"}, 4);
         listaPreguntas.add(pregunta1);
         listaPreguntas.add(pregunta2);
         listaPreguntas.add(pregunta3);
@@ -82,14 +84,18 @@ public class FrmQuizz extends javax.swing.JInternalFrame {
         }
     }
 
-    void mostrarResultadoQuizz() {
+    boolean esValidoNombreApellidos() {
         if (txtNombresApellidos.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, ingrese sus nombres y apellidos");
+            JOptionPane.showMessageDialog(null, "Por favor, ingrese sus nombres y apellidos", "AVISO", JOptionPane.WARNING_MESSAGE);
             txtNombresApellidos.requestFocus();
-        } else {
-            nombresApellidos = txtNombresApellidos.getText().toUpperCase();
-            frmMenuPrincipal.mostrarResultadoQuizz();
+            return false;
         }
+        return true;
+    }
+
+    void mostrarResultadoQuizz() {
+        nombresApellidos = txtNombresApellidos.getText().toUpperCase();
+        frmMenuPrincipal.mostrarResultadoQuizz();
     }
 
     boolean haSeleccionadoAlternativa() {
@@ -142,9 +148,27 @@ public class FrmQuizz extends javax.swing.JInternalFrame {
         lblPregunta.setText(quizz.getPregunta());
 
         String[] alternativas = quizz.getAlternativas();
-        rbtAlternativa1.setText(alternativas[0]);
-        rbtAlternativa2.setText(alternativas[1]);
-        rbtAlternativa3.setText(alternativas[2]);
+        
+        if (!alternativas[0].isEmpty()) {
+            rbtAlternativa1.setVisible(true);
+            rbtAlternativa1.setText(alternativas[0]);
+        } else {
+            rbtAlternativa1.setVisible(false);
+        }
+
+        if (!alternativas[1].isEmpty()) {
+            rbtAlternativa2.setVisible(true);
+            rbtAlternativa2.setText(alternativas[1]);
+        } else {
+            rbtAlternativa2.setVisible(false);
+        }
+
+        if (!alternativas[2].isEmpty()) {
+            rbtAlternativa3.setVisible(true);
+            rbtAlternativa3.setText(alternativas[2]);
+        } else {
+            rbtAlternativa3.setVisible(false);
+        }
     }
 
     boolean esRespuestaCorrecta() {
@@ -153,12 +177,16 @@ public class FrmQuizz extends javax.swing.JInternalFrame {
     }
 
     void contabilizarRespuestas() {
-        if (quizzCompletado()) return;
+        Quizz quizz = listaPreguntasSeleccionadas.get(contadorPregunta);
+        if (quizzCompletado()) {
+            return;
+        }
         if (obtenerRespuestaSeleccionada().isEmpty()) {
             respuestasIncorrectas++;
         } else {
             if (esRespuestaCorrecta()) {
                 respuestasCorrectas++;
+                puntaje += quizz.getPuntaje();
             } else {
                 respuestasIncorrectas++;
             }
@@ -310,6 +338,9 @@ public class FrmQuizz extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        if (!esValidoNombreApellidos()) {
+            return;
+        }
         contabilizarRespuestas();
         contadorPregunta++;
         mostrarPregunta();
