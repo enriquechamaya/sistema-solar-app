@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package clases;
 
+package clases;
 /**
- *
  * @author Saul
  */
 public class CalculoPlaneta {
@@ -18,13 +12,13 @@ public class CalculoPlaneta {
     
     public String Modelo(){
         String v[]={"","mercurio","venus","jupiter","marte","saturno","urano","neptuno"};
-        return v[planeta];
+        return v[planeta];  
     }
     
-    public double FuerzaG(){
-        double f[]={0, .378,.906,2.533,.379,1.066,.905,1.133};
-        return f[planeta];
-    }
+        public double FuerzaG(){
+            double f[]={0, .378,.906,2.533,.379,1.066,.905,1.133};
+            return f[planeta];
+        }
     
     public double resultado(){
         return  Math.round(FuerzaG()*peso);

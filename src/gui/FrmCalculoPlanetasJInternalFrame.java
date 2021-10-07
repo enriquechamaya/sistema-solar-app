@@ -7,11 +7,23 @@ package gui;
 
 import clases.CalculoPlaneta;
 import controlador.Arreglo_CalculoPlaneta;
+import static gui.frmMenuPrincipal.jDesktopPane2;
 import java.awt.Image;
+import java.awt.TextField;
+import java.awt.event.KeyEvent;
 import java.io.File;
+import java.net.URL;
+import java.text.ParseException;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
+import javafx.scene.control.TextFormatter;
 import javax.swing.ImageIcon;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -40,6 +52,7 @@ public class FrmCalculoPlanetasJInternalFrame extends javax.swing.JInternalFrame
         txtApellidoe.setText("");
         txtPesoe.setText("");
         cboPlanetas.setSelectedIndex(0);
+        txtNombree.requestFocus();
 
     }
 
@@ -96,6 +109,11 @@ public class FrmCalculoPlanetasJInternalFrame extends javax.swing.JInternalFrame
         getContentPane().add(txtNombree, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 62, 130, -1));
         getContentPane().add(txtApellidoe, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 88, 130, -1));
 
+        txtPesoe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPesoeActionPerformed(evt);
+            }
+        });
         txtPesoe.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtPesoeKeyTyped(evt);
@@ -125,6 +143,11 @@ public class FrmCalculoPlanetasJInternalFrame extends javax.swing.JInternalFrame
 
         btnCalcularp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/calcular.png"))); // NOI18N
         btnCalcularp.setText("Calcular");
+        btnCalcularp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCalcularpMouseClicked(evt);
+            }
+        });
         btnCalcularp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCalcularpActionPerformed(evt);
@@ -172,7 +195,9 @@ public class FrmCalculoPlanetasJInternalFrame extends javax.swing.JInternalFrame
 
         if (txtNombree.getText().isEmpty() || txtApellidoe.getText().isEmpty()
                 || txtPesoe.getText().isEmpty() || cboPlanetas.getSelectedIndex() == 0) {
-           JOptionPane.showMessageDialog(null, "Por favor, complete los campos", "AVISO", JOptionPane.WARNING_MESSAGE);
+
+            JOptionPane.showMessageDialog(null, "Por favor, complete los campos", "AVISO", JOptionPane.WARNING_MESSAGE);
+
             txtNombree.requestFocus();
 
         } else {
@@ -180,12 +205,16 @@ public class FrmCalculoPlanetasJInternalFrame extends javax.swing.JInternalFrame
             String nom = txtNombree.getText();
             String ape = txtApellidoe.getText();
             int pes = Integer.parseInt(txtPesoe.getText());
+
             int cad = cboPlanetas.getSelectedIndex();
             CalculoPlaneta ca = new CalculoPlaneta(nom, ape, pes, cad);
+
             obj.adicionar(ca);
             muestra();
             limpiar();
         }
+
+
     }//GEN-LAST:event_btnCalcularpActionPerformed
 
     private void txtPesoeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesoeKeyTyped
@@ -194,9 +223,25 @@ public class FrmCalculoPlanetasJInternalFrame extends javax.swing.JInternalFrame
             getToolkit().beep();
             evt.consume();
 
-            JOptionPane.showMessageDialog(rootPane, "Ingresa tu peso");
+            JOptionPane.showMessageDialog(null, "Por favor, ingrese su peso correctamente", "AVISO", JOptionPane.WARNING_MESSAGE);
         }
+
+        //Agrega maximo tres carateres
+        if (txtPesoe.getText().length() == 3) {
+            evt.consume();
+        }
+
+  
+
     }//GEN-LAST:event_txtPesoeKeyTyped
+
+    private void txtPesoeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesoeActionPerformed
+
+    }//GEN-LAST:event_txtPesoeActionPerformed
+
+    private void btnCalcularpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCalcularpMouseClicked
+
+    }//GEN-LAST:event_btnCalcularpMouseClicked
 
     void verImagen(String pic) {
         //detectar la ruta del proyecto
@@ -211,6 +256,7 @@ public class FrmCalculoPlanetasJInternalFrame extends javax.swing.JInternalFrame
         lblPlaneta.setIcon(new ImageIcon(imesc));
 
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCalcularp;

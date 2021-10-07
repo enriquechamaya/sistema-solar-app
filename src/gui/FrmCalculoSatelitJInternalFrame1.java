@@ -93,6 +93,11 @@ public class FrmCalculoSatelitJInternalFrame1 extends javax.swing.JInternalFrame
         getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 62, 130, -1));
         getContentPane().add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 88, 130, -1));
 
+        txtPesoTerrestre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPesoTerrestreActionPerformed(evt);
+            }
+        });
         txtPesoTerrestre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtPesoTerrestreKeyTyped(evt);
@@ -196,6 +201,10 @@ public class FrmCalculoSatelitJInternalFrame1 extends javax.swing.JInternalFrame
             JOptionPane.showMessageDialog(rootPane, "Ingresa tu peso");
         }
     }//GEN-LAST:event_txtPesoTerrestreKeyTyped
+
+    private void txtPesoTerrestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesoTerrestreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPesoTerrestreActionPerformed
     void verImagen(String pic) {
         //detectar la ruta del proyecto
         String ruta = new File("src").getAbsolutePath();
